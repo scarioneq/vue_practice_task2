@@ -23,7 +23,7 @@ export default {
           column: 1,
           tasks: [
             {id: 1, text: 'Выучить Vue', completed: false},
-            {id: 1, text: '10 лаб по КС', completed: false},
+            {id: 2, text: '10 лаб по КС', completed: false},
           ],
         },
         {
@@ -41,7 +41,17 @@ export default {
           tasks: [
             {id: 1, text: 'Разобраться с ОПП', completed: true},
           ],
-        }
+        },
+        {
+          id: 4,
+          title: 'JavaScript',
+          column: 2,
+          tasks: [
+            {id: 1, text: 'Синтаксис', completed: true},
+            {id: 2, text: 'Разобраться с ОПП', completed: true},
+            {id: 3, text: 'Async', completed: false},
+          ],
+        },
       ],
     }
   }

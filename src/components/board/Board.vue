@@ -1,18 +1,18 @@
 <template>
   <div class="board">
     <Column
-        title="Столбец 1"
+        title="Новые задачи"
         :cards="cards.filter(card => card.column === 1)"
         :limit="3"
     />
     <Column
-        title="Столбец 2"
+        title="Почти закончили"
         :cards="cards.filter(card => card.column === 2)"
         :limit="5"
     />
     <Column
-        title="Столбец 3"
-        :cards="cards.filter(card => card.column === 1)"
+        title="Завершено"
+        :cards="cards.filter(card => card.column === 3)"
     />
   </div>
 </template>
