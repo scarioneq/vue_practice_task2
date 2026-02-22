@@ -4,7 +4,7 @@
     <div class="btn-card">
       <button>Добавить карточку (в первый столбец)</button>
     </div>
-    <Board />
+    <Board :cards="cards" />
   </div>
 </template>
 
@@ -17,10 +17,32 @@ export default {
   data() {
     return {
       cards: [
-        {id: 1, title: 'Карточка 1', column: 1, tasks: ['123', '321']},
-        {id: 2, title: 'Карточка 1', column: 1, tasks: ['123', '321']},
-        {id: 3, title: 'Карточка 1', column: 1, tasks: ['123', '321']},
-      ]
+        {
+          id: 1,
+          title: 'Учеба',
+          column: 1,
+          tasks: [
+            {id: 1, text: 'Выучить Vue', completed: false},
+            {id: 1, text: '10 лаб по КС', completed: false},
+          ],
+        },
+        {
+          id: 2,
+          title: 'Покупки',
+          column: 1,
+          tasks: [
+            {id: 1, text: 'Quest 2', completed: false},
+          ],
+        },
+        {
+          id: 3,
+          title: 'php',
+          column: 1,
+          tasks: [
+            {id: 1, text: 'Разобраться с ОПП', completed: true},
+          ],
+        }
+      ],
     }
   }
 
