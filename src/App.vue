@@ -1,83 +1,28 @@
 <template>
   <div class="app">
     <h1>Хранение заметок</h1>
-    <div class ="btn-card">
+    <div class="btn-card">
       <button>Добавить карточку (в первый столбец)</button>
     </div>
-    <div class="board">
-      <div class="column">
-        <h2>Столбец 1</h2>
-        <div class="note-card">
-          <h3>Карточка 1</h3>
-          <div class="todo">
-            <ol>
-              <li>Задача 1</li>
-              <li>Задача 2</li>
-              <li>Задача 3</li>
-            </ol>
-          </div>
-          <div class="btn-add-do">
-            <input type="text">
-            <button>Добавить задачу</button>
-          </div>
-
-        </div>
-        <div class="note-card">
-          <h3>Карточка 2</h3>
-          <div class="todo">
-            <ol>
-              <li>Задача 1</li>
-              <li>Задача 2</li>
-              <li>Задача 3</li>
-            </ol>
-          </div>
-          <div class="btn-add-do">
-            <input type="text">
-            <button>Добавить задачу</button>
-          </div>
-        </div>
-      </div>
-      <div class="column">
-        <h2>Столбец 2</h2>
-        <div class="note-card">
-          <h3>Карточка 1</h3>
-          <div class="todo">
-            <ol>
-              <li>Задача 1</li>
-              <li>Задача 2</li>
-              <li>Задача 3</li>
-            </ol>
-          </div>
-          <div class="btn-add-do">
-            <input type="text">
-            <button>Добавить задачу</button>
-          </div>
-        </div>
-      </div>
-      <div class="column">
-        <h2>Столбец 3</h2>
-        <div class="note-card">
-          <h3>Карточка 1</h3>
-          <div class="todo">
-            <ol>
-              <li>Задача 1</li>
-              <li>Задача 2</li>
-              <li>Задача 3</li>
-            </ol>
-          </div>
-          <div class="btn-add-do">
-            <input type="text">
-            <button>Добавить задачу</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Board />
   </div>
 </template>
 
 <script>
 
+import Board from "@/components/board/Board.vue";
+
 export default {
+  components: {Board},
+  data() {
+    return {
+      cards: [
+        {id: 1, title: 'Карточка 1', column: 1, tasks: ['123', '321']},
+        {id: 2, title: 'Карточка 1', column: 1, tasks: ['123', '321']},
+        {id: 3, title: 'Карточка 1', column: 1, tasks: ['123', '321']},
+      ]
+    }
+  }
 
 }
 </script>
