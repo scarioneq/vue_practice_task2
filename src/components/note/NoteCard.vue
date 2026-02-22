@@ -2,14 +2,18 @@
   <div class="note-card">
     <h3>{{ card.title }}</h3>
 
-    <div>Задач: {{ card.tasks.length || 0 }}</div>
-
     <div class="todo">
       <ol>
-        <li v-if="card.tasks.length" v-for="task in card.tasks" :key="task.id">
-          {{ task.text }} - {{ task.completed ? 'true' : 'false' }}
+        <li v-for="task in card.tasks" :key="task.id">
+          <label>
+            <input
+                type="checkbox"
+                :checked="task.completed"
+                @change="toggleTask(task.id)"
+            >
+            {{ task.text }}
+          </label>
         </li>
-        <li v-else>Нет задач</li>
       </ol>
     </div>
 
@@ -29,8 +33,15 @@ export default {
       type: Object,
       required: true
     }
+  },
+  methods: {
+    toggleTask(taskId) {
+      this.$emit('task-toggled', {
+        cardId: this.card.id,
+        taskId: taskId
+      })
+    }
   }
-
 }
 </script>
 

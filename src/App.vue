@@ -54,6 +54,21 @@ export default {
         },
       ],
     }
+  },
+  methods: {
+    getCardColumn(card) {
+      const total = card.tasks.length
+      const completed = card.tasks.filter(t => t.completed).length
+      const percent = total === 0 ? 0 : (completed / total) * 100
+
+      if (percent >= 100) return 3
+      if (percent >= 50) return 2
+      return 1
+    }
+
+  },
+  computed: {
+
   }
 
 }
