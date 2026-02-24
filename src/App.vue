@@ -2,9 +2,18 @@
   <div class="app">
     <h1>Хранение заметок</h1>
     <div class="btn-card">
-      <button>Добавить карточку (в первый столбец)</button>
+      <form @submit.prevent>
+        <button @click="addCard()">Добавить карточку (в первый столбец)</button>
+        <br>
+        <input
+            type="text"
+            placeholder="Название карточки"
+            v-model="card.title"
+        >
+      </form>
+
     </div>
-    <Board :cards="cards" @task-toggled="[updateCompletedCards, editCardColumn]" />
+    <Board :cards="cards" @task-toggled="updateCompletedCards" @createTaskEvent="createTask"/>
   </div>
 </template>
 
@@ -16,6 +25,9 @@ export default {
   components: {Board},
   data() {
     return {
+      card : {
+        title: '',
+      },
       cards: [
         {
           id: 1,
@@ -36,14 +48,6 @@ export default {
         },
         {
           id: 3,
-          title: 'php',
-          column: 1,
-          tasks: [
-            {id: 1, text: 'Разобраться с ОПП', completed: true},
-          ],
-        },
-        {
-          id: 4,
           title: 'JavaScript',
           column: 2,
           tasks: [
@@ -56,13 +60,42 @@ export default {
     }
   },
   methods: {
+    createTask() {
+      console.log('1234');
+    },
+    addCard() {
+      // console.log(this.cards.length + "", this.card.title)
+      const cardsColumnOne = this.cards.filter(c => c.column === 1).length
+      // console.log(cardsColumnOne)
+
+      if (!(cardsColumnOne >= 3)) {
+        const card = {
+          id: this.cards.length + 1,
+          title: this.card.title,
+          column: 1,
+          tasks: []
+        }
+        this.cards.push(card)
+      }
+    },
     updateCompletedCards(data) {
       const card = this.cards.find(card => card.id === data.cardId)
+
       const task = card.tasks.find(task => task.id === data.taskId)
       task.completed = !task.completed
+      this.editCardColumn(card, task)
     },
-    editCardColumn(data) {
-
+    editCardColumn(card, task) {
+      const total = card.tasks.length
+      const completed = card.tasks.filter(t => t.completed).length
+      const percent = total === 0 ? 0 : (completed / total) * 100
+      if (percent >=100) {
+        card.column = 3
+      } else if (percent >= 50) {
+        card.column = 2
+      } else {
+        card.column = 1
+      }
     },
 
   },

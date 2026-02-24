@@ -16,10 +16,17 @@
       </ol>
     </div>
 
-    <div class="btn-add-do">
-      <input type="text">
-      <button>Добавить задачу</button>
-    </div>
+    <form @submit.prevent class="btn-add-do">
+      <input
+          type="text"
+          placeholder="Текст задачи"
+          v-model="task.text"
+      >
+      <button
+          @click="createTask"
+
+      >Добавить задачу</button>
+    </form>
   </div>
 </template>
 
@@ -27,6 +34,13 @@
 
 
 export default {
+  data() {
+    return {
+      task: {
+        text: ''
+      }
+    }
+  },
   props: {
     card: {
       type: Object,
@@ -36,6 +50,13 @@ export default {
   emits: ['task-toggled'],
 
   methods: {
+    createTask() {
+      this.$emit('createTaskEvent', {
+        task: this.task,
+        taskText: this.task.text,
+      })
+    },
+
     toggleTask(task) {
       this.$emit('task-toggled', {
         cardId: this.card.id,

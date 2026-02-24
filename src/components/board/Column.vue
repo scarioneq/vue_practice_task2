@@ -9,6 +9,7 @@
           :key="card.id"
           :card="card"
           @task-toggled="$emit('task-toggled', $event)"
+          @createTaskEvent="$emit('createTaskEvent', $event)"
 
       />
     </div>

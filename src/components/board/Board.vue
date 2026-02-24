@@ -5,6 +5,7 @@
         :cards="cards.filter(card => card.column === 1)"
         :limit="3"
         @task-toggled="$emit('task-toggled', $event)"
+        @createTaskEvent="$emit('createTaskEvent', $event)"
 
     />
     <Column
@@ -12,11 +13,13 @@
         :cards="cards.filter(card => card.column === 2)"
         :limit="5"
         @task-toggled="$emit('task-toggled', $event)"
+        @createTaskEvent="$emit('createTaskEvent', $event)"
     />
     <Column
         title="Завершено"
         :cards="cards.filter(card => card.column === 3)"
         @task-toggled="$emit('task-toggled', $event)"
+        @createTaskEvent="$emit('createTaskEvent', $event)"
     />
   </div>
 </template>
