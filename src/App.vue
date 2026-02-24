@@ -37,6 +37,7 @@ export default {
             {id: 1, text: 'Выучить Vue', completed: false},
             {id: 2, text: '10 лаб по КС', completed: false},
           ],
+          completedAt: '123'
         },
         {
           id: 2,
@@ -45,6 +46,7 @@ export default {
           tasks: [
             {id: 1, text: 'Quest 2', completed: false, completedAt: ''},
           ],
+          completedAt: ''
         },
         {
           id: 3,
@@ -55,6 +57,7 @@ export default {
             {id: 2, text: 'Разобраться с ОПП', completed: true},
             {id: 3, text: 'Async', completed: false},
           ],
+          completedAt: ''
         },
         {
           id: 4,
@@ -65,7 +68,7 @@ export default {
             {id: 2, text: 'Разобраться с ОПП', completed: true},
             {id: 3, text: 'Async', completed: false},
           ],
-
+          completedAt: ''
         },
         {
           id: 5,
@@ -76,6 +79,7 @@ export default {
             {id: 2, text: 'Разобраться с ОПП', completed: true},
             {id: 3, text: 'Async', completed: false},
           ],
+          completedAt: ''
         },
       ],
       blockSecondColumn: false
@@ -119,10 +123,13 @@ export default {
 
       if (percent >=100) {
         card.column = 3
+        card.completedAt = new Date().toLocaleString('sv-SE').replace(' ', ' ');
       } else if (percent >= 50 && this.cards.filter(c => c.column === 2).length !==5) {
         card.column = 2
+        card.completedAt = ''
       } else {
         card.column = 1
+        card.completedAt = ''
       }
 
       if (percent >= 50 && this.cards.filter(c => c.column === 2).length === 5 && card.column === 1) {

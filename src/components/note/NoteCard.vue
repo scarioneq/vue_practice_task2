@@ -16,6 +16,9 @@
 
         </li>
       </ol>
+      <div>
+        {{card.completedAt}}
+      </div>
     </div>
 
     <form @submit.prevent class="btn-add-do" >
