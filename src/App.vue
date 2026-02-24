@@ -22,6 +22,10 @@
 import Board from "@/components/board/Board.vue";
 
 export default {
+  created() {
+    this.loadFromLocalStorage()
+  },
+
   components: {Board},
   data() {
     return {
@@ -86,6 +90,22 @@ export default {
     }
   },
   methods: {
+    loadFromLocalStorage() {
+      const savedCards = localStorage.getItem('cards')
+      const savedBlockState = localStorage.getItem('blockSecondColumn')
+
+      if (savedCards) {
+        this.cards = JSON.parse(savedCards)
+      }
+
+      if (savedBlockState) {
+        this.blockSecondColumn = JSON.parse(savedBlockState)
+      }
+    },
+    saveToLocalStorage() {
+      localStorage.setItem('cards', JSON.stringify(this.cards))
+      localStorage.setItem('blockSecondColumn', JSON.stringify(this.blockSecondColumn))
+    },
     createTask(data) {
       const taskText = data.taskText
       const card = data.card
@@ -95,6 +115,7 @@ export default {
         completed: false,
       }
       this.cards[card.id-1].tasks.push(task)
+      this.saveToLocalStorage()
     },
     addCard() {
       const cardsColumnOne = this.cards.filter(c => c.column === 1).length
@@ -109,12 +130,14 @@ export default {
         this.cards.push(card)
         this.card.title = ''
       }
+      this.saveToLocalStorage()
     },
     updateCompletedCards(data) {
       const card = this.cards.find(card => card.id === data.cardId)
       const task = card.tasks.find(task => task.id === data.taskId)
       task.completed = !task.completed
       this.editCardColumn(card, task)
+      this.saveToLocalStorage()
     },
     editCardColumn(card) {
       const total = card.tasks.length
@@ -142,6 +165,7 @@ export default {
       if (percent < 50 && this.cards.filter(c => c.column === 2).length === 5 && card.column === 1) {
         this.blockSecondColumn = false
       }
+      this.saveToLocalStorage()
 
     },
     updateFirstColumnCards() {
@@ -155,7 +179,9 @@ export default {
           card.column = 2
         }
       })
+      this.saveToLocalStorage()
     }
+
   },
   computed: {
 
