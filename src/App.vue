@@ -60,8 +60,15 @@ export default {
     }
   },
   methods: {
-    createTask() {
-      console.log('1234');
+    createTask(data) {
+      const taskText = data.taskText
+      const card = data.card
+      const task = {
+        id: card.tasks.length + 1,
+        text: taskText,
+        completed: false,
+      }
+      this.cards[card.id-1].tasks.push(task)
     },
     addCard() {
       // console.log(this.cards.length + "", this.card.title)
@@ -76,11 +83,11 @@ export default {
           tasks: []
         }
         this.cards.push(card)
+        this.card.title = ''
       }
     },
     updateCompletedCards(data) {
       const card = this.cards.find(card => card.id === data.cardId)
-
       const task = card.tasks.find(task => task.id === data.taskId)
       task.completed = !task.completed
       this.editCardColumn(card, task)

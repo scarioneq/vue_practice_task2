@@ -7,6 +7,7 @@
         @task-toggled="$emit('task-toggled', $event)"
         @createTaskEvent="$emit('createTaskEvent', $event)"
 
+
     />
     <Column
         title="Почти закончили"
@@ -14,12 +15,14 @@
         :limit="5"
         @task-toggled="$emit('task-toggled', $event)"
         @createTaskEvent="$emit('createTaskEvent', $event)"
+
     />
     <Column
         title="Завершено"
         :cards="cards.filter(card => card.column === 3)"
         @task-toggled="$emit('task-toggled', $event)"
         @createTaskEvent="$emit('createTaskEvent', $event)"
+
     />
   </div>
 </template>

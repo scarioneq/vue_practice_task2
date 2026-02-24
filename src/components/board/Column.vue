@@ -11,6 +11,7 @@
           @task-toggled="$emit('task-toggled', $event)"
           @createTaskEvent="$emit('createTaskEvent', $event)"
 
+
       />
     </div>
 

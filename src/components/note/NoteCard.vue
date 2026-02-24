@@ -16,7 +16,7 @@
       </ol>
     </div>
 
-    <form @submit.prevent class="btn-add-do">
+    <form @submit.prevent class="btn-add-do" >
       <input
           type="text"
           placeholder="Текст задачи"
@@ -24,7 +24,6 @@
       >
       <button
           @click="createTask"
-
       >Добавить задачу</button>
     </form>
   </div>
@@ -47,14 +46,15 @@ export default {
       required: true
     }
   },
-  emits: ['task-toggled'],
+  emits: ['task-toggled', 'createTaskEvent'],
 
   methods: {
     createTask() {
       this.$emit('createTaskEvent', {
-        task: this.task,
+        card: this.card,
         taskText: this.task.text,
       })
+      this.task.text = ''
     },
 
     toggleTask(task) {
