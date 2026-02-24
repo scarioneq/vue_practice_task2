@@ -10,6 +10,7 @@
             placeholder="Название карточки"
             v-model="card.title"
         >
+        <br>
       </form>
 
     </div>
@@ -120,17 +121,19 @@ export default {
     addCard() {
       const cardsColumnOne = this.cards.filter(c => c.column === 1).length
 
-      if (!(cardsColumnOne >= 3)) {
-        const card = {
-          id: this.cards.length + 1,
-          title: this.card.title,
-          column: 1,
-          tasks: []
+      if (this.card.title !=='') {
+        if (!(cardsColumnOne >= 3)) {
+          const card = {
+            id: this.cards.length + 1,
+            title: this.card.title,
+            column: 1,
+            tasks: []
+          }
+          this.cards.push(card)
+          this.card.title = ''
         }
-        this.cards.push(card)
-        this.card.title = ''
+        this.saveToLocalStorage()
       }
-      this.saveToLocalStorage()
     },
     updateCompletedCards(data) {
       const card = this.cards.find(card => card.id === data.cardId)
