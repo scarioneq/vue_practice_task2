@@ -5,14 +5,13 @@
     <div class="todo">
       <ol>
         <li v-for="task in card.tasks" :key="task.id">
-          <label>
             <input
                 type="checkbox"
                 :checked="task.completed"
-                @change="toggleTask(task.id)"
+                @change="toggleTask(task)"
+
             >
             {{ task.text }}
-          </label>
         </li>
       </ol>
     </div>
@@ -34,13 +33,17 @@ export default {
       required: true
     }
   },
+  emits: ['task-toggled'],
+
   methods: {
-    toggleTask(taskId) {
+    toggleTask(task) {
       this.$emit('task-toggled', {
         cardId: this.card.id,
-        taskId: taskId
+        taskId: task.id,
+        completed: task.completed
       })
-    }
+    },
+
   }
 }
 </script>

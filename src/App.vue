@@ -4,7 +4,7 @@
     <div class="btn-card">
       <button>Добавить карточку (в первый столбец)</button>
     </div>
-    <Board :cards="cards" />
+    <Board :cards="cards" @task-toggled="[updateCompletedCards, editCardColumn]" />
   </div>
 </template>
 
@@ -56,15 +56,14 @@ export default {
     }
   },
   methods: {
-    getCardColumn(card) {
-      const total = card.tasks.length
-      const completed = card.tasks.filter(t => t.completed).length
-      const percent = total === 0 ? 0 : (completed / total) * 100
+    updateCompletedCards(data) {
+      const card = this.cards.find(card => card.id === data.cardId)
+      const task = card.tasks.find(task => task.id === data.taskId)
+      task.completed = !task.completed
+    },
+    editCardColumn(data) {
 
-      if (percent >= 100) return 3
-      if (percent >= 50) return 2
-      return 1
-    }
+    },
 
   },
   computed: {

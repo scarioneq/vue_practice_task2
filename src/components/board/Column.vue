@@ -8,6 +8,8 @@
           v-for="card in cards"
           :key="card.id"
           :card="card"
+          @task-toggled="$emit('task-toggled', $event)"
+
       />
     </div>
 
@@ -25,7 +27,7 @@ export default {
     },
     cards: {
       type: Array,
-      default: () => []
+      required: true
     },
     limit: {
       type: Number,
