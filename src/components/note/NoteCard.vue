@@ -1,5 +1,7 @@
 <template>
-  <div class="note-card">
+  <div
+      class="note-card"
+  >
     <h3>{{ card.title }}</h3>
 
     <div class="todo">
@@ -9,9 +11,9 @@
                 type="checkbox"
                 :checked="task.completed"
                 @change="toggleTask(task)"
-
             >
             {{ task.text }}
+
         </li>
       </ol>
     </div>
@@ -30,7 +32,6 @@
 </template>
 
 <script>
-
 
 export default {
   data() {

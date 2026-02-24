@@ -1,5 +1,5 @@
 <template>
-    <div class="column">
+    <div class="column" :class="{ 'block-first-column': blockSecondColumn && title === 'Новые задачи' }">
       <h2> {{ title }}</h2>
       <div v-if="limit" class="column-info">
         Карточек: {{ cards.length }} // {{ limit }}
@@ -10,8 +10,6 @@
           :card="card"
           @task-toggled="$emit('task-toggled', $event)"
           @createTaskEvent="$emit('createTaskEvent', $event)"
-
-
       />
     </div>
 
@@ -34,12 +32,20 @@ export default {
     limit: {
       type: Number,
       default: null
+    },
+    blockSecondColumn: {
+      type: Boolean,
+      required: true
     }
-  }
+  },
+  computed: {
 
+  }
 }
 </script>
 
 <style>
+
+
 
 </style>

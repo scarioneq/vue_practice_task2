@@ -13,7 +13,7 @@
       </form>
 
     </div>
-    <Board :cards="cards" @task-toggled="updateCompletedCards" @createTaskEvent="createTask"/>
+    <Board :cards="cards" @task-toggled="updateCompletedCards" @createTaskEvent="createTask" :block-second-column="blockSecondColumn"/>
   </div>
 </template>
 
@@ -41,9 +41,9 @@ export default {
         {
           id: 2,
           title: 'Покупки',
-          column: 1,
+          column: 2,
           tasks: [
-            {id: 1, text: 'Quest 2', completed: false},
+            {id: 1, text: 'Quest 2', completed: false, completedAt: ''},
           ],
         },
         {
@@ -56,7 +56,29 @@ export default {
             {id: 3, text: 'Async', completed: false},
           ],
         },
+        {
+          id: 4,
+          title: 'JavaScript',
+          column: 2,
+          tasks: [
+            {id: 1, text: 'Синтаксис', completed: true},
+            {id: 2, text: 'Разобраться с ОПП', completed: true},
+            {id: 3, text: 'Async', completed: false},
+          ],
+
+        },
+        {
+          id: 5,
+          title: 'JavaScript',
+          column: 2,
+          tasks: [
+            {id: 1, text: 'Синтаксис', completed: true},
+            {id: 2, text: 'Разобраться с ОПП', completed: true},
+            {id: 3, text: 'Async', completed: false},
+          ],
+        },
       ],
+      blockSecondColumn: false
     }
   },
   methods: {
@@ -71,9 +93,7 @@ export default {
       this.cards[card.id-1].tasks.push(task)
     },
     addCard() {
-      // console.log(this.cards.length + "", this.card.title)
       const cardsColumnOne = this.cards.filter(c => c.column === 1).length
-      // console.log(cardsColumnOne)
 
       if (!(cardsColumnOne >= 3)) {
         const card = {
@@ -92,24 +112,47 @@ export default {
       task.completed = !task.completed
       this.editCardColumn(card, task)
     },
-    editCardColumn(card, task) {
+    editCardColumn(card) {
       const total = card.tasks.length
       const completed = card.tasks.filter(t => t.completed).length
       const percent = total === 0 ? 0 : (completed / total) * 100
+
       if (percent >=100) {
         card.column = 3
-      } else if (percent >= 50) {
+      } else if (percent >= 50 && this.cards.filter(c => c.column === 2).length !==5) {
         card.column = 2
       } else {
         card.column = 1
       }
-    },
 
+      if (percent >= 50 && this.cards.filter(c => c.column === 2).length === 5 && card.column === 1) {
+        this.blockSecondColumn = true
+      }
+      if (percent >=100 && card.column === 3 && this.cards.filter(c => c.column === 2).length !== 5 && this.blockSecondColumn) {
+        this.blockSecondColumn = false
+        this.updateFirstColumnCards()
+      }
+      if (percent < 50 && this.cards.filter(c => c.column === 2).length === 5 && card.column === 1) {
+        this.blockSecondColumn = false
+      }
+
+    },
+    updateFirstColumnCards() {
+      const firstColumnCards = this.cards.filter(c => c.column === 1)
+
+      firstColumnCards.forEach(card => {
+        const total = card.tasks.length
+        const completed = card.tasks.filter(t => t.completed).length
+        const percent = total === 0 ? 0 : (completed / total) * 100
+        if (percent >= 50 && this.cards.filter(c => c.column === 2).length < 5) {
+          card.column = 2
+        }
+      })
+    }
   },
   computed: {
 
   }
-
 }
 </script>
 
