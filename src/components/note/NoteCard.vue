@@ -21,8 +21,9 @@
       </div>
     </div>
 
-    <form @submit.prevent class="btn-add-do" >
+    <form @submit.prevent class="task-create">
       <input
+          class="text-task"
           type="text"
           placeholder="Текст задачи"
           v-model="task.text"
@@ -74,5 +75,24 @@ export default {
 </script>
 
 <style>
+.todo {
+  border: 1px solid teal;
+}
+
+ol {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.note-card {
+  border: 1px solid teal;
+}
+
+.task-create button, input{
+  background-color: white;
+  padding: 5px;
+  border-radius: 6px;
+  border: 1px solid teal;
+}
 
 </style>

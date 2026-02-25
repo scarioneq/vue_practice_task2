@@ -47,9 +47,16 @@ export default {
 </script>
 
 <style >
-.block-first-column {
-  pointer-events: none;
-  opacity: 0.5;
+
+.board {
+  padding: 15px;
+  border: 2px solid teal;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+  gap: 100px;
+  justify-content: space-between;
+  background-color: #ebefeb;
 }
 
 

@@ -46,6 +46,14 @@ export default {
 
 <style>
 
+.block-first-column {
+  pointer-events: none;
+  opacity: 0.5;
+}
 
+.column {
+  border: 1px solid teal;
+  background: none;
+}
 
 </style>

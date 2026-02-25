@@ -1,20 +1,101 @@
 <template>
   <div class="app">
     <h1>Хранение заметок</h1>
-    <div class="btn-card">
-      <form @submit.prevent>
-        <button @click="addCard()">Добавить карточку (в первый столбец)</button>
+    <div class="form-flex">
+      <form
+          @submit.prevent
+      >
+        <button
+            @click="addCard()"
+            class="btn btn-main"
+        >
+          Добавить карточку (в первый столбец)
+        </button>
+        <br>
         <br>
         <input
+            class="input-create"
             type="text"
             placeholder="Название карточки"
             v-model="card.title"
         >
         <br>
+        <input
+            class="input-create"
+            type="text"
+            placeholder="Текст первой задачи"
+            v-model="card.taskText.text1"
+        >
+        <br>
+        <input
+            class="input-create"
+            type="text"
+            placeholder="Текст второй задачи"
+            v-model="card.taskText.text2"
+        >
+        <br>
+        <input
+            class="input-create"
+            type="text"
+            placeholder="Текст третьей задачи"
+            v-model="card.taskText.text3"
+        >
+        <br>
+        <button
+            @click="showInput = true"
+            v-if="!showInput"
+            class="btn"
+        >
+          Добавить добавить еще пункт списка
+        </button>
+
+        <div
+            v-if="showInput"
+            class="add-task-input"
+        >
+          <input
+              type="text"
+              placeholder="Текст четвертой задачи"
+              v-model="card.taskText.text4"
+          >
+          <button
+              @click="showInput = false"
+              class="btn"
+          >
+            Отмена
+          </button>
+        </div>
+        <button
+            v-if="card.taskText.text4 && !showFifthInput && showInput"
+            @click="showFifthInput = true"
+            class="btn"
+        >
+          Добавить добавить еще пункт списка
+        </button>
+        <div
+            v-if="showFifthInput"
+            class="add-task-input"
+        >
+          <input
+              type="text"
+              placeholder="Текст пятой задачи"
+              v-model="card.taskText.text5"
+          >
+          <button
+              @click="showFifthInput = false"
+              class="btn"
+          >
+            Отмена</button>
+        </div>
       </form>
 
     </div>
-    <Board :cards="cards" @task-toggled="updateCompletedCards" @createTaskEvent="createTask" :block-second-column="blockSecondColumn"/>
+    <Board
+        :cards="cards"
+        @task-toggled="updateCompletedCards"
+        @createTaskEvent="createTask"
+        :block-second-column="blockSecondColumn"
+    />
   </div>
 </template>
 
@@ -32,7 +113,16 @@ export default {
     return {
       card : {
         title: '',
+        taskText: {
+          text1: '',
+          text2: '',
+          text3: '',
+          text4: '',
+          text5: '',
+        }
       },
+      showInput: false,
+      showFifthInput: false,
       cards: [
         {
           id: 1,
@@ -90,6 +180,7 @@ export default {
       blockSecondColumn: false
     }
   },
+
   methods: {
     loadFromLocalStorage() {
       const savedCards = localStorage.getItem('cards')
@@ -115,24 +206,45 @@ export default {
         text: taskText,
         completed: false,
       }
-      this.cards[card.id-1].tasks.push(task)
-      this.saveToLocalStorage()
+      if (task.id === 6) {
+        alert("Вы не можете создать больше пяти задач")
+      } else {
+        this.cards[card.id-1].tasks.push(task)
+        this.saveToLocalStorage()
+      }
     },
     addCard() {
       const cardsColumnOne = this.cards.filter(c => c.column === 1).length
-
-      if (this.card.title !=='') {
+      const filledCount = Object.values(this.card.taskText).filter(value => value !== '').length
+      const taskArray = Object.values(this.card.taskText)
+      let tasks = []
+      if (this.card.title !=='' && filledCount >= 3) {
         if (!(cardsColumnOne >= 3)) {
+          for (let i = 0; i < filledCount; i++) {
+            const task = {
+              id: i+1,
+              text: taskArray[i],
+              completed: false,
+            }
+            tasks.push(task)
+          }
           const card = {
             id: this.cards.length + 1,
             title: this.card.title,
             column: 1,
-            tasks: []
+            tasks: tasks
           }
           this.cards.push(card)
           this.card.title = ''
+          this.card.taskText.text1 = ''
+          this.card.taskText.text2 = ''
+          this.card.taskText.text3 = ''
+          this.card.taskText.text4 = ''
+          this.card.taskText.text5 = ''
         }
         this.saveToLocalStorage()
+      } else {
+        alert("У карточки должно быть название и минимум 3 пункта списка")
       }
     },
     updateCompletedCards(data) {
@@ -142,20 +254,24 @@ export default {
       this.editCardColumn(card, task)
       this.saveToLocalStorage()
     },
-    editCardColumn(card) {
-      const total = card.tasks.length
-      const completed = card.tasks.filter(t => t.completed).length
-      const percent = total === 0 ? 0 : (completed / total) * 100
+    editCardColumn(card, task) {
+      const percent = this.getCardPercent(card)
 
-      if (percent >=100) {
+      if (percent === 100) {
         card.column = 3
         card.completedAt = new Date().toLocaleString('sv-SE').replace(' ', ' ');
       } else if (percent >= 50 && this.cards.filter(c => c.column === 2).length !==5) {
         card.column = 2
         card.completedAt = ''
       } else {
-        card.column = 1
-        card.completedAt = ''
+        if (!this.cards.filter(c => c.column === 1).length >= 3) {
+          console.log('123')
+          card.column = 1
+          card.completedAt = ''
+        } else {
+          alert("Вы не можете убрать завершения пункта задачи, так как в первом столбце уже максимальное число карточек")
+          task.completed = !task.completed
+        }
       }
 
       if (percent >= 50 && this.cards.filter(c => c.column === 2).length === 5 && card.column === 1) {
@@ -173,18 +289,19 @@ export default {
     },
     updateFirstColumnCards() {
       const firstColumnCards = this.cards.filter(c => c.column === 1)
-
       firstColumnCards.forEach(card => {
-        const total = card.tasks.length
-        const completed = card.tasks.filter(t => t.completed).length
-        const percent = total === 0 ? 0 : (completed / total) * 100
+        const percent = this.getCardPercent(card)
         if (percent >= 50 && this.cards.filter(c => c.column === 2).length < 5) {
           card.column = 2
         }
       })
       this.saveToLocalStorage()
+    },
+    getCardPercent(card) {
+      const total = card.tasks.length
+      const completed = card.tasks.filter(t => t.completed).length
+      return total === 0 ? 0 : (completed / total) * 100
     }
-
   },
   computed: {
 
@@ -204,28 +321,30 @@ export default {
   padding: 20px;
 }
 
-.board {
+.btn {
+  padding: 5px;
+  border-radius: 6px;
+  border: 1px solid teal;
+  background-color: white;
+}
+
+.form-flex {
+  display: inline;
+}
+
+.input-create {
+  width: 30%;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid teal;
+}
+
+.btn-main {
   padding: 15px;
   border: 2px solid teal;
-  margin-top: 15px;
-  display: flex;
-  flex-direction: row;
-  gap: 100px;
-  justify-content: space-between;
-  background-color: #c2e4c6;
 }
 
-.column {
-  border: 1px solid teal;
-  background-color: #ecf4ec;
-}
 
-.note-card {
-  border: 1px solid teal;
-}
 
-.todo {
-  border: 1px solid teal;
-}
 
 </style>
