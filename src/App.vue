@@ -265,7 +265,6 @@ export default {
         card.completedAt = ''
       } else {
         if (!this.cards.filter(c => c.column === 1).length >= 3) {
-          console.log('123')
           card.column = 1
           card.completedAt = ''
         } else {

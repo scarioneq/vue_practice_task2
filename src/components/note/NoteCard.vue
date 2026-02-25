@@ -85,7 +85,7 @@ ol {
 }
 
 .note-card {
-  border: 1px solid teal;
+  margin-bottom: 10px;
 }
 
 .task-create button, input{
