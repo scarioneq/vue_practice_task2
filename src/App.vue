@@ -124,58 +124,7 @@ export default {
       showInput: false,
       showFifthInput: false,
       cards: [
-        {
-          id: 1,
-          title: 'Учеба',
-          column: 1,
-          tasks: [
-            {id: 1, text: 'Выучить Vue', completed: false},
-            {id: 2, text: '10 лаб по КС', completed: false},
-          ],
-          completedAt: '123'
-        },
-        {
-          id: 2,
-          title: 'Покупки',
-          column: 2,
-          tasks: [
-            {id: 1, text: 'Quest 2', completed: false, completedAt: ''},
-          ],
-          completedAt: ''
-        },
-        {
-          id: 3,
-          title: 'JavaScript',
-          column: 2,
-          tasks: [
-            {id: 1, text: 'Синтаксис', completed: true},
-            {id: 2, text: 'Разобраться с ОПП', completed: true},
-            {id: 3, text: 'Async', completed: false},
-          ],
-          completedAt: ''
-        },
-        {
-          id: 4,
-          title: 'JavaScript',
-          column: 2,
-          tasks: [
-            {id: 1, text: 'Синтаксис', completed: true},
-            {id: 2, text: 'Разобраться с ОПП', completed: true},
-            {id: 3, text: 'Async', completed: false},
-          ],
-          completedAt: ''
-        },
-        {
-          id: 5,
-          title: 'JavaScript',
-          column: 2,
-          tasks: [
-            {id: 1, text: 'Синтаксис', completed: true},
-            {id: 2, text: 'Разобраться с ОПП', completed: true},
-            {id: 3, text: 'Async', completed: false},
-          ],
-          completedAt: ''
-        },
+
       ],
       blockSecondColumn: false
     }
@@ -264,7 +213,7 @@ export default {
         card.column = 2
         card.completedAt = ''
       } else {
-        if (!this.cards.filter(c => c.column === 1).length >= 3) {
+        if (this.cards.filter(c => c.column === 1).length <= 3) {
           card.column = 1
           card.completedAt = ''
         } else {
